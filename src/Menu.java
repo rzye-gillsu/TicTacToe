@@ -49,10 +49,10 @@ public class Menu {
                 if (cd.player.equals(ChartDesign.X))
                     while (true) {
                         option = getChoice(input);
-                        if (option >= 1 && option <= Math.pow(ChartDesign.n, 2))
+                        if (option >= 1 && option <= (int) Math.pow(ChartDesign.n, 2))
                             break;
                         else
-                            System.out.printf("choose a number between 1 to %d: ", Math.pow(ChartDesign.n, 2));
+                            System.out.printf("choose a number between 1 to %d: ", (int) Math.pow(ChartDesign.n, 2));
                     }
                 else {
                     Thread.sleep(1000);
@@ -64,6 +64,7 @@ public class Menu {
                 if (result == 1) {
                     System.out.println("\nWrong input! Try another one...");
                     i--;
+                    cd.setPlayer(moveCount);
                     moveCount--;
                 } else if (result == 0) {
                     cd.display();
@@ -106,6 +107,7 @@ public class Menu {
                 if (result == 1) {
                     System.out.println("\nWrong input! Try another one...");
                     i--;
+                    cd.setPlayer(moveCount);
                     moveCount--;
                 } else if (result == 0) {
                     cd.display();

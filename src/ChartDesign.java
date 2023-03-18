@@ -141,10 +141,9 @@ public class ChartDesign {
             rowColMaking(option);
             if (chart[row][col].equals(sharp) || chart[row][col].equals(O) || chart[row][col].equals(X))
                 return false;
-            else {
-                chart[row][col] = player;
-                countFills++;
-            }
+
+            chart[row][col] = player;
+            countFills++;
             return true;
     }
 
