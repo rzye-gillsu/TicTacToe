@@ -4,8 +4,6 @@
     <list default="true" id="0e59ac2d-5859-4201-9acf-233e245f4290" name="Changes" comment="Settings.txt added.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Settings.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Settings.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ChartDesign.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ChartDesign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +93,7 @@
       <workItem from="1679120189611" duration="1920000" />
       <workItem from="1679122134995" duration="3993000" />
       <workItem from="1679126828310" duration="2752000" />
-      <workItem from="1679138822304" duration="2579000" />
+      <workItem from="1679138822304" duration="3879000" />
     </task>
     <task id="LOCAL-00001" summary="Settings.txt added.">
       <created>1678603593173</created>
