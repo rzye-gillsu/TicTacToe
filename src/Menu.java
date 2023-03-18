@@ -3,6 +3,10 @@ import java.util.Scanner;
 public class Menu {
     private Scanner input = new Scanner(System.in);
     private ChartDesign cd;
+
+    /**
+     * This method prints the menu.
+     */
     public void menu ()
     {
         System.out.print("\n" +
@@ -21,9 +25,17 @@ public class Menu {
                            "4. Exit");
     }
 
+    /**
+     *  If the user chooses to play with computer, this method will handle the operations.
+     * uncommenting the comments in this method, will let the user play their choice
+     * repeatedly by pressing 'R' or 'r'.
+     * @param choice
+     * @throws InterruptedException
+     */
     public void option1 (int choice) throws InterruptedException {
          cd = new ChartDesign();
         int moveCount = 0, option;
+//        char R = 'R';
 //        while (R == 'r' || R == 'R') {
             for (int i = 0; i < ((int) (Math.pow(ChartDesign.n, 2) - ChartDesign.lockCells)); i++) {
 
@@ -48,7 +60,7 @@ public class Menu {
                 }
                 moveCount++;
                 cd.setPlayer(moveCount);
-                int result = cd.gatheredUpThingsTogether(option, choice);
+                int result = cd.gatheredThingsTogether(option, choice);
                 if (result == 1) {
                     System.out.println("\nWrong input! Try another one...");
                     i--;
@@ -70,9 +82,16 @@ public class Menu {
 //        }
     }
 
+    /**
+     *  If the user chooses to play with the other player, this method will handle the operations.
+     * uncommenting the comments in this method, will let the user play their choice
+     * repeatedly by pressing 'R' or 'r'.
+     * @param choice
+     */
     public void option2(int choice) {
         cd = new ChartDesign();
         int moveCount = 0, option;
+//        char R = 'R';
 //        while (R == 'r' || R == 'R') {
             for (int i = 0; i < (int) (Math.pow(ChartDesign.n, 2) - ChartDesign.lockCells); i++) {
 
@@ -83,7 +102,7 @@ public class Menu {
                 option = getChoice(input);
                 moveCount++;
                 cd.setPlayer(moveCount);
-                int result = cd.gatheredUpThingsTogether(option, choice);
+                int result = cd.gatheredThingsTogether(option, choice);
                 if (result == 1) {
                     System.out.println("\nWrong input! Try another one...");
                     i--;
@@ -104,6 +123,12 @@ public class Menu {
 //            moveCount = 0;
 //        }
     }
+
+    /**
+     *  This method checks if the user has entered the right format of answer.
+     * @param input
+     * @return
+     */
     public static int getChoice(Scanner input) {
         String Choice;
         while (true) {
@@ -118,6 +143,11 @@ public class Menu {
         return choice;
     }
 
+    /**
+     * Checks if the String input is integer or not.
+     * @param str
+     * @return
+     */
     public static boolean isInteger(String str) {
         if (str == null)
             return false;
@@ -138,33 +168,3 @@ public class Menu {
         return true;
     }
 }
-
-/**
- * import java.io.BufferedReader;
- * import java.io.FileReader;
- * import java.io.IOException;
- * import java.util.ArrayList;
- * import java.util.List;
- * import java.util.stream.Collectors;
- *
- * class Refactorings {
- *     public static void main(String[] args) throws IOException {
- *         List<String> array = readStrings();
- *         List<String> filtered = array.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
- *         for (String s : filtered) {
- *             System.out.println(s);
- *         }
- *     }
- *
- *     private static List<String> readStrings() throws IOException {
- *         try(BufferedReader reader = new BufferedReader(new FileReader("input.txt"))) {
- *             ArrayList<String> lines = new ArrayList<>();
- *             String line;
- *             while ((line = reader.readLine()) != null) {
- *                 lines.add(line);
- *             }
- *             return lines;
- *         }
- *     }
- * }
- */

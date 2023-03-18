@@ -8,16 +8,24 @@ public class Setting {
     private File file;
     public static int[] set = new int[3];
     private String setting;
+
+    /**
+     *  The constructor of the Setting Class, makes a txt file if it doesn't exist
+     * and reads its content.
+     */
     public Setting () {
         file = new File("Settings.txt");
         readFile();
     }
 
+    /**
+     *  It gets the player's options about their favorable chart options.
+     */
     public void explain () { // how to avoid importing many libraries
         System.out.println("->You can set your favorable setting here.");
 
         Scanner input = new Scanner(System.in);
-        System.out.print("\tSize of the chart(n>2): ");
+        System.out.print("\n\tSize of the chart(n>2): ");
         set[0] = input.nextInt();
 
         System.out.print("\n\tNumber of Locked cells: ");
@@ -27,9 +35,11 @@ public class Setting {
         set[2] = input.nextInt();
     }
 
+    /**
+     * It writes the user inputs to the file.
+     */
     public void writeFile () {
         try {
-//            if (file.createNewFile()) {}
             FileWriter writer = new FileWriter("Settings.txt");
             setting = String.valueOf(set[0]) + " " + String.valueOf(set[1]) + " " + String.valueOf(set[2]);
             writer.write(setting);
@@ -40,6 +50,9 @@ public class Setting {
         }
     }
 
+    /**
+     * It reads the content of the file and sets it to class's variables.
+     */
     public void readFile() {
         String[] splitString = new String[3];
         if (file.exists()) {

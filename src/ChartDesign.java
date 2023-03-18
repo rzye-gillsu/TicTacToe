@@ -1,5 +1,7 @@
-import java.sql.SQLOutput;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 
 public class ChartDesign {
     public static int n;
@@ -16,7 +18,6 @@ public class ChartDesign {
         public static final String ANSI_RESET = "\u001B[0m";
         public static final String ANSI_RED = "\u001B[31m";
         public static final String ANSI_YELLOW = "\u001B[33m";
-        public static final String ANSI_PURPLE = "\u001B[35m";
         public static final String ANSI_CYAN = "\u001B[36m";
         public static String X = ANSI_CYAN + "X    " + ANSI_RESET;
         public static String O = ANSI_YELLOW + "O    " + ANSI_RESET;
@@ -26,27 +27,20 @@ public class ChartDesign {
         private int moveCount;
         private String[] lock = new String[lockCells];
         private int row, col;
-        private int countFills = 0;
+        private int countFills = lockCells;
         private String[][] chart = new String[n][n];
 
-        public ChartDesign() {
+    /**
+     *  In this constructor of the ChartDesign Class, the game chart is set.
+     * Then the random lock numbers are produced based on the user input or
+     * default settings.
+     */
+    public ChartDesign() {
 
             int count = 1;
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < n; j++)
                     chart[i][j] = String.valueOf(count++);
-
-//            int[] lockInt = new int[lockCells];
-//            int i = 0;
-//            Set<Integer> set = new HashSet<Integer>();
-//            while (set.size() < lockCells) {
-//                int num = random.nextInt(nPow);
-//                lockInt[i++] = num + 1;
-//            }
-//            for (int i1 = 0; i1 < lockCells; i1++) {
-//                System.out.print(lockInt[i] + " ");
-//            }
-
 
             ArrayList<Integer> list = new ArrayList<Integer>(n);
             for (int i = 0; i < nPow; i++) {
@@ -58,24 +52,7 @@ public class ChartDesign {
                 lockInt[i] = list.get(i);
                 lock[i] = String.valueOf(lockInt[i]);
             }
-            for (int i = 0; i < lockCells; i++) {
-                System.out.print(lockInt[i] + " ");
-            }
 
-//            int[] lockInt = new int[lockCells];
-//            lockInt[0] = random.nextInt(1, nPow); // ye doonaro ba hamash moghayese kon hey
-//            for (int i = 1; i < lockCells; i++) {
-//                int lockCheck = random.nextInt(1, nPow);
-//                for (int j = 0; j < i + 1; j++) {
-//                    if (lockCheck == lockInt[i - 1]) {
-//                        i--;
-//                        break;
-//                    } else {
-//                        lockInt[i] = lockCheck;
-//                        lock[i] = String.valueOf(lockInt[i]);
-//                    }
-//                }
-//            }
             for (int i = 0; i < lockCells; i++) {
                 rowColMaking(lockInt[i]);
                 chart[row][col] = sharp;
@@ -83,32 +60,44 @@ public class ChartDesign {
 
         }
 
-        public void setPlayer(int moveCount) {
+    /**
+     *  This method calls the private method setPlayerOption which determines the player
+     * X or O based on the move counts.
+     * @param moveCount If the moveCount is even, it's X's turn, otherwise O has to play.
+     */
+    public void setPlayer(int moveCount) {
             this.moveCount = moveCount;
             setPlayerOption();
-        }
+    }
 
-        private void setPlayerOption() {
+    /**
+     *  Supports the public setPlayer method. If the moveCount is even, it's X's turn,
+     * otherwise O has to play.
+     */
+    private void setPlayerOption() {
             if (moveCount % 2 == 0) {
                 player = X;
             } else {
                 player = O;
             }
-        }
+    }
 
-        public int computer() {
+    /**
+     *  This method produces a random integer as the computer choice while
+     * the player is playing with the computer.
+     * @return int
+     */
+    public int computer() {
             int computerChoice = 0;
-            for (int i = 0; i < n; i++) {
-                for (int i1 = 0; i1 < n; i1++) { // do we need an if with the condition (moveCount == 12)?
-                    //if (chart[i][i1].equals(X) || chart[i][i1].equals(O) || chart[i][i1].equals(sharp))
-                    if (!isInteger(chart[i][i1]))
-                        countFills++;
-                    else
-                        computerChoice = Integer.valueOf(chart[i][i1]);
+
+            if (countFills == (nPow - 1)) {
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        if (isInteger(chart[i][j]))
+                            return (Integer.parseInt(chart[i][j]));
+                    }
                 }
             }
-            if (countFills == (nPow - 1))
-                return computerChoice;
 
             while (true) {
                 computerChoice = random.nextInt(1, nPow);
@@ -117,9 +106,14 @@ public class ChartDesign {
                     break;
             }
             return computerChoice;
-        }
+    }
 
-        private void rowColMaking(int option) {
+    /**
+     *  This method has the user's or computer's option(i.e. number of the cell in the chart)
+     * and declares its row and column in the chart.
+     * @param option
+     */
+    private void rowColMaking(int option) {
             for (int i = 0; i < n; i++) {
                 if (option >= ((n * i) + 1) && option <= n * (i + 1)) {
                     row = i;
@@ -131,33 +125,38 @@ public class ChartDesign {
                 if(option % n == i)
                     col = i - 1;
             }
-//            if (option % 4 == 1)
-//                col = 0;
-//            else if (option % 4 == 2)
-//                col = 1;
-//            else if (option % 4 == 3)
-//                col = 2;
-//            else if (option % 4 == 0)
-//                col = 3;
-        }
+    }
 
-        private boolean setChart(int option, int howToPlay) {
+    /**
+     *  This method place the user's or computer's option in the chart, using the row and column
+     * which rowColMaking method has produced.
+     * @param option
+     * @param howToPlay
+     * @return
+     */
+    private boolean setChart(int option, int howToPlay) {
             if ((option == 0) && (howToPlay == 1)) {
                 option = computer();
             }
             rowColMaking(option);
             if (chart[row][col].equals(sharp) || chart[row][col].equals(O) || chart[row][col].equals(X))
                 return false;
-            else
+            else {
                 chart[row][col] = player;
+                countFills++;
+            }
             return true;
-        }
+    }
 
-
-        public int checkWin() {
+    /**
+     *  This method does all the needed calculations to determine the winner
+     * in the rows, cols, diags and antidiags of the chart.
+     * @return
+     */
+    public int checkWin() {
             if (moveCount > 4) {
                 // tie
-                if (moveCount == (nPow - lockCells) && (countFills == nPow)) // maybe there's no need to the (countFills == 16).
+                if ((countFills == nPow))
                     return 2;
 
                 // row wins
@@ -270,9 +269,16 @@ public class ChartDesign {
                 }
             }
             return 1;
-        }
+    }
 
-        public int gatheredUpThingsTogether(int option, int howToPlay) {
+    /**
+     *  This method gathers all the private methods and gives their outputs to
+     * external classes.
+     * @param option
+     * @param howToPlay
+     * @return
+     */
+    public int gatheredThingsTogether(int option, int howToPlay) {
             if (!setChart(option, howToPlay)) {
                 return 1;
             }
@@ -283,9 +289,12 @@ public class ChartDesign {
                 return 2;
             else
                 return -1;
-        }
+    }
 
-        public void display() {
+    /**
+     * It prints the table of the game.
+     */
+    public void display() {
             System.out.print("\033[H\033[2J");
             System.out.flush();
 
@@ -294,12 +303,18 @@ public class ChartDesign {
                 for (int i1 = 0; i1 < n; i1++) {
                     System.out.printf("%-5s", chart[i][i1]);;
                 }
-                System.out.println("\n" /*+ ANSI_PURPLE + "-----------------" + ANSI_RESET*/);
+                System.out.println("\n");
             }
 
-        }
+    }
 
-        private boolean isInteger(String str) {
+    /**
+     *  It's used in the computer method where we need to know if the String input parameter
+     * is Integer or not.
+     * @param str
+     * @return
+     */
+    private boolean isInteger(String str) {
             try {
                 Integer.parseInt(str);
                 return true;
